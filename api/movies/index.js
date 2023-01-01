@@ -1,13 +1,13 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
-import {getMovies,getMovie, getUpcomingMovies, getTopRatedMovies, getMovieImages } from '../tmdb/tmdb-api';
-
+import {getMovies, getUpcomingMovies, getTopRatedMovies, getMovieImages } from '../tmdb/tmdb-api';
+import movieModel from './movieModel';
 
 const router = express.Router(); 
 
-router.get('/home/:page', asyncHandler( async(req, res) => {
-    const page = parseInt(req.params.page);
-    const Movies = await getMovies(page);
+router.get('/', asyncHandler( async(req, res) => {
+   
+    const Movies = await getMovies();
     res.status(200).json(Movies);
   }));
 
@@ -15,7 +15,7 @@ router.get('/home/:page', asyncHandler( async(req, res) => {
 
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
-    const movie = await getMovie(id);
+    const movie = await movieModel.findByMovieDBId(id);
     if (movie) {
         res.status(200).json(movie);
     } else {
@@ -26,16 +26,16 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 
 
-router.get('/tmdb/upcoming/:page', asyncHandler( async(req, res) => {
-    const page = parseInt(req.params.page);
-    const upcomingMovies = await getUpcomingMovies(page);
+router.get('/tmdb/upcoming', asyncHandler( async(req, res) => {
+    
+    const upcomingMovies = await getUpcomingMovies();
     res.status(200).json(upcomingMovies);
   }));
 
 
-  router.get('/tmdb/topRated/:page', asyncHandler( async(req, res) => {
-    const page = parseInt(req.params.page);
-    const topRatedMovies = await getTopRatedMovies(page);
+  router.get('/tmdb/topRated', asyncHandler( async(req, res) => {
+    
+    const topRatedMovies = await getTopRatedMovies();
     res.status(200).json(topRatedMovies);
 }));
 

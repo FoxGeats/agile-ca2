@@ -4,9 +4,9 @@ import { getPersonMovies, getPerson, getPersonImages, getPopularPeople } from '.
 
 const router = express.Router(); 
 
-router.get('/popular/:page', asyncHandler( async(req, res) => {
-    const page = parseInt(req.params.page);
-    const actors = await getPopularPeople(page);
+router.get('/popular', asyncHandler( async(req, res) => {
+   
+    const actors = await getPopularPeople();
     res.status(200).json(actors);
   }));
 

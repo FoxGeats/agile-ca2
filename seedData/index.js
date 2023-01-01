@@ -15,10 +15,19 @@ async function loadUsers() {
     console.error(`failed to Load user Data: ${err}`);
   }
 }
+export async function loadMovies() {
+  console.log('load seed data');
+  console.log(movies.length);
+  try {
+    await movieModel.deleteMany();
+    await movieModel.collection.insertMany(movies);
+    console.info(`${movies.length} Movies were successfully stored.`);
+  } catch (err) {
+    console.error(`failed to Load movie Data: ${err}`);
+  }
+}
 
-
-
-if (process.env.SEED_DB) {
+if (process.env.SEED_DB == 'true') {
   loadUsers();
-
+loadMovies();
 }
