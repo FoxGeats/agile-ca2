@@ -2,25 +2,31 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 import Review from './reviewModel'
 import {getMovieReviews} from '../tmdb/tmdb-api'
-const router = express.Router(); 
+import {getMovie } from '../tmdb/tmdb-api';
 
+const router = express.Router(); 
+const idReg= /^[0-9]*[1-9][0-9]*$/;
 // Get movie reviews
 router.get('/movie/:id/reviews', asyncHandler(async (req, res) => {
+   
+    if (idReg.test(req.params.id)) {
     const id = parseInt(req.params.id);
     const movieReviews = await Review.find({movieId: id});
     const movieReviewsTmdb= await getMovieReviews(id);
    
  const resReviews=movieReviews.concat(movieReviewsTmdb)
- 
-    if(id){
-        res.status(200).json(resReviews); 
-    } else {
-        res.status(404).json({
+ console.log(resReviews)
+    if(resReviews[0].success==false){
+         res.status(404).json({
             message: 'The resource you requested could not be found.',
             status_code: 404
         });
+    } else { 
+       res.status(200).json(resReviews);
     }
-
+    }else{
+        res.status(403).json({message: 'Invalid movie id.', status_code: 403});
+    }
 }));
 
 
@@ -29,8 +35,14 @@ router.get('/movie/:id/reviews', asyncHandler(async (req, res) => {
 
 //Post a movie review
 router.post('/movie/:id/reviews/:username', asyncHandler(async (req, res) => {
+    if(idReg.test(req.params.id)){
     const id = parseInt(req.params.id);
     const userName = req.params.username;
+
+    const movie = await getMovie(id);
+    console.log(movie)
+    if(movie.success!=false){
+    if (req.body.author && req.body.content) {
     const movieReviews = await Review.find({author: userName, movieId: id});
     if (movieReviews.length === 0 || movieReviews === null){
         req.body.id = new Date();
@@ -55,6 +67,19 @@ router.post('/movie/:id/reviews/:username', asyncHandler(async (req, res) => {
             message: 'The resource you requested could not be found.',
             status_code: 404
         });
+    }}
+    else{ 
+        res.status(403).json({ message: 'Invalid author name or content.', status_code: 403 });
     }
+    }else{
+        res.status(404).json({
+            message: 'The resource you requested could not be found.',
+            status_code: 404
+        });
+    }
+}else{
+    res.status(403).json({ message: 'Invalid author name or content.', status_code: 403 });
+    
+}
 }));
 export default router;

@@ -33,16 +33,15 @@ export const getTopRatedMovies = (page) => {
 export const getMovie = (id) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
+  )
+  .then((res) => res.json())
+.then((json) => {
+
+  return json;
 });
 };
+
+
 
 
 export const getMovies = () => {
@@ -158,6 +157,6 @@ export const getMovieReviews = async (id) => {
     .then((res) => res.json())
     .then((json) => {
     
-      return json.results;
+      return json;
     });
 };

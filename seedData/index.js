@@ -3,6 +3,7 @@ import users from './users';
 import dotenv from 'dotenv';
 import movies from './movies';
 import movieModel from '../api/movies/movieModel';
+
 dotenv.config();
 
 // deletes all user documents in collection and inserts test data
@@ -28,7 +29,10 @@ export async function loadMovies() {
   }
 }
 
+
+
 if (process.env.SEED_DB == 'true') {
   loadUsers();
 loadMovies();
+
 }
