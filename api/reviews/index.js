@@ -15,7 +15,7 @@ router.get('/movie/:id/reviews', asyncHandler(async (req, res) => {
     const movieReviewsTmdb= await getMovieReviews(id);
    
  const resReviews=movieReviews.concat(movieReviewsTmdb)
- console.log(resReviews)
+
     if(resReviews[0].success==false){
          res.status(404).json({
             message: 'The resource you requested could not be found.',
@@ -40,7 +40,7 @@ router.post('/movie/:id/reviews/:username', asyncHandler(async (req, res) => {
     const userName = req.params.username;
 
     const movie = await getMovie(id);
-    console.log(movie)
+
     if(movie.success!=false){
     if (req.body.author && req.body.content) {
     const movieReviews = await Review.find({author: userName, movieId: id});
