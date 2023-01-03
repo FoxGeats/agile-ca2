@@ -55,7 +55,7 @@ deploy_staging:
     - dpl --provider=heroku --app=$HEROKU_APP_NAME_STAGING --api-key=$HEROKU_API_KEY
     - echo "Deployed to staging server"
 
-    deploy_prod_manual:
+deploy_prod_manual:
   image: ruby:latest
   only:
     - develop
