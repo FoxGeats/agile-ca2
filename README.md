@@ -33,7 +33,7 @@ Student Number: 20099883
 
 
 ## Test cases.
-
+~~~
  Users endpoint
     GET /api/users
 database connected to movies on ac-qwijndm-shard-00-02.zrczo3w.mongodb.net
@@ -128,9 +128,9 @@ failed to Load user Data: ReferenceError: genres is not defined
         √ should return a person's movie credits from tmdb and a status 200 (110ms)
         for an invalid id
           √ should return error message and a status 404     
-
+~~~
 ## Coveralls.
-
+~~~
 ---|---------|----------|---------|---------|-------------------
 ... | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 
@@ -176,7 +176,7 @@ failed to Load user Data: ReferenceError: genres is not defined
    |     100 |      100 |     100 |     100 |                   
    |     100 |      100 |     100 |     100 |                   
 ---|---------|----------|---------|---------|-------------------
-
+~~~
 ## Independent Learning 
 + https://coveralls.io/gitlab/FoxGeats/agile-ca2?branch=develop
 + [![Coverage Status](https://coveralls.io/repos/gitlab/FoxGeats/agile-ca2/badge.svg?branch=develop)](https://coveralls.io/gitlab/FoxGeats/agile-ca2?branch=develop)
